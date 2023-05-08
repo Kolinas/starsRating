@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Звездный рейтинг</title>
+  <style>
+    .star-rating {
+      display: inline-flex;
+      gap: 5px;
+    }
+    .star {
+      font-size: 24px;
+      cursor: pointer;
+      color: #ccc;
+    }
+    .active {
+      color: gold;
+    }
+  </style>
+</head>
+<body>
+<div>
+    <div class="star-rating">
+        <span class="star">★</span>
+        <span class="star">★</span>
+        <span class="star">★</span>
+        <span class="star">★</span>
+        <span class="star">★</span>
+      </div>
+      <div>Всего оценок: <span id="rating"></span></div>
+      <div>Общая оценка: <span id="total-rating"></span></div>
+      <button id="btn">Оценить</button>
+</div>
+
+  <script>
+    const stars = document.querySelectorAll(".star");
+    const rating = document.querySelector('#rating')
+    const total = document.querySelector('#total-rating')
+    const button = document.querySelector('#btn')
+
+    let totalVoutes = 0
+    let totalVoutesSum = 0
+    let currentRating = 0
+    
+    stars.forEach((star, index) => {
+      star.addEventListener("click", () => {
+        for (let i = 0; i < stars.length; i++) {
+          if (i <= index) {
+            stars[i].classList.add("active");
+          } else {
+            stars[i].classList.remove("active");
+          }
+        }
+        currentRating = index + 1
+      });
+    });
+
+    function clearStars() {
+        stars.forEach(star => star.classList.remove('active'))
+    }
+
+    function setRaiting() {
+        totalVoutes += 1
+        totalVoutesSum += currentRating
+        clearStars()
+        currentRating = 0
+        totalRating() 
+    }
+
+    function totalRating() {
+        rating.textContent = totalVoutes
+        total.textContent = totalVoutesSum > 0 ? (Math.round((totalVoutesSum / totalVoutes) * 100) / 100).toFixed(2) : 0
+    }
+    
+    totalRating()
+
+    button.addEventListener('click', setRaiting)
+  </script>
+</body>
+</html>
