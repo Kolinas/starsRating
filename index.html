@@ -20,7 +20,7 @@
   </style>
 </head>
 <body>
-<div>
+<div class="container">
     <div class="star-rating">
         <span class="star">★</span>
         <span class="star">★</span>
@@ -34,6 +34,7 @@
 </div>
 
   <script>
+    const container = document.querySelector('.container')
     const stars = document.querySelectorAll(".star");
     const rating = document.querySelector('#rating')
     const total = document.querySelector('#total-rating')
@@ -45,6 +46,10 @@
     
     stars.forEach((star, index) => {
       star.addEventListener("click", () => {
+        const thanks = document.querySelector('.thanks')
+        if(thanks) {
+            thanks.remove()
+        }
         for (let i = 0; i < stars.length; i++) {
           if (i <= index) {
             stars[i].classList.add("active");
@@ -63,16 +68,24 @@
     function setRaiting() {
         totalVoutes += 1
         totalVoutesSum += currentRating
-        clearStars()
         currentRating = 0
+        clearStars()
         totalRating() 
+        thanksMasage()
     }
 
     function totalRating() {
         rating.textContent = totalVoutes
         total.textContent = totalVoutesSum > 0 ? (Math.round((totalVoutesSum / totalVoutes) * 100) / 100).toFixed(2) : 0
     }
-    
+
+    function thanksMasage() {
+        const thankMassage = document.createElement('div')
+        thankMassage.classList.add('thanks')
+        thankMassage.textContent = 'Спасибо за оценку!!'
+        container.append(thankMassage)
+    }
+
     totalRating()
 
     button.addEventListener('click', setRaiting)
